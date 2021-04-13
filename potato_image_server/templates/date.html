@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    <div class="offset-2 col-8 bg-primary fg-primary">
+        <h2>Date {{ date }}</h2>
+
+        {% for image in images %}
+            <div class="image-container">
+                <div class="image-wrapper">
+                    <img src="{% media {{ image.url }} %}" alt="{{ image.name }}">
+                </div>
+                <h6 class="image-text">{{ image.name }}</h6>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endif %}
+
+{% endblock %}

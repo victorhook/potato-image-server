@@ -1,0 +1,40 @@
+
+.content-wrapper {
+    height: 100vh;
+}
+
+.fg-primary {
+    color: rgb(230, 234, 251) !important;
+}
+
+.fg-secondary {
+    color: rgb(230, 234, 251) !important;
+}
+
+.bg-primary {
+    background-color: #223754 !important;
+}
+
+.bg-secondary {
+    background-color: #426eac !important;
+}
+
+.content {
+    text-align: center;
+}
+
+.link {
+    color: rgb(46, 46, 46);
+    text-decoration: none;
+    transition: 0.3s ease-in-out color;
+}
+
+.link:hover {
+    color:rgb(93, 80, 167);
+    text-decoration: none;
+}
+
+footer a,
+footer p {
+    padding: 0 1em;
+}
