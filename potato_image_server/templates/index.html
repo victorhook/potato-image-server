@@ -8,7 +8,7 @@
         <h2>Dates</h2>
 
         {% for date in dates %}
-            <a>{ date }</a>
+            <a href="media/{{ date.0 }}">{{ date.1 }}</a>
         {% endfor %}
     </div>
 

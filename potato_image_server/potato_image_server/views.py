@@ -4,6 +4,5 @@ from .utils import Proxy
 
 
 def index(request):
-    #dates = Proxy.get_dates()
-    dates = []
+    dates = Proxy.get_dates()
     return render(request, 'index.html', {'dates': dates})
