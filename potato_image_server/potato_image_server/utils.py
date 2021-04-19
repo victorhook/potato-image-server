@@ -1,43 +1,25 @@
-from django.conf import settings
-import requests
-import re
-
-RE_A_TAG: re.Pattern = re.compile('href="(.*)">(.*)<\/a>')
+from datetime import datetime
+import calendar
 
 
-class Proxy:
-
-    @staticmethod
-    def _request(endpoint: str) -> str:
-        r = requests.get(f'{settings.PROXY_HOST}/{endpoint}',
-                        headers={
-                            'Authorization': f'Basic {settings.PROXY_AUTH}'
-                            })
-        return r.text
-
-    @staticmethod
-    def get_dates() -> list:
-        html = Proxy._request('')
-        dates = RE_A_TAG.findall(html)
-
-        refs = []
-        names = []
-        for match in dates:
-            if not match[0].startswith('..'):
-                refs.append(match[0])
-                names.append(match[1][:-1])
-
-        print(list(zip(refs, names)))
-
-        return zip(refs, names)
-
-    @staticmethod
-    def get_images(date: str) -> list:
-        html = Proxy._request(date)
-        return []
+DATE_FORMAT = '%Y-%m-%d'
+TIME_FORMAT = '%H:%M'
 
 
-if __name__ == '__main__':
+def datetime_to_date_and_time(_datetime: datetime):
+    date = _datetime.strftime(DATE_FORMAT)
+    time = _datetime.strftime(TIME_FORMAT)
+    return date, time
 
 
-    print(r.text)
+def dateify_sample(sample):
+    date, time = datetime_to_date_and_time(sample.date)
+    sample.date = date
+    sample.time = time
+    return sample
+
+
+def get_weekday(date: str) -> str:
+    weekday = datetime.strptime(date, DATE_FORMAT).weekday()
+    return calendar.day_name[weekday]
+    
