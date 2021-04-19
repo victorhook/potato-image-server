@@ -1,23 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 
-{% block content %}
 
-{% if user.is_authenticated %}
+{% block page_title %}
+    {{ weekday }}, {{ date }}
+{% endblock %}
 
-    <div class="offset-2 col-8 bg-primary fg-primary">
-        <h2>Date {{ date }}</h2>
+{% block page_content %}
 
-        {% for image in images %}
-            <div class="image-container">
-                <div class="image-wrapper">
-                    <img src="{% media {{ image.url }} %}" alt="{{ image.name }}">
-                </div>
-                <h6 class="image-text">{{ image.name }}</h6>
-            </div>
-        {% endfor %}
+    <div class="row">
+        <div class="offset-1 col-10 bg-primary fg-primary list-group list-group-horizontal flex-fill flex-wrap">
+            {% for image in images %}
+            <a class="list-group-item time-link" href="{% url 'image' date=date img=image.0 %}">{{ image.1 }}</a>
+            {% endfor %}
+        </div>
     </div>
-
-
-{% endif %}
 
 {% endblock %}

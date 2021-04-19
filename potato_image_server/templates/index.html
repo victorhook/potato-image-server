@@ -1,18 +1,156 @@
 {% extends 'base.html' %}
 
+{% block last_sample %}
+    <table class="table fg-primary text-start top-table">
+        <tr>
+            <td>Date</td>
+            <td>Time</td>
+            <td>Humidity</td>
+            <td>Pressure</td>
+            <td>Temperature</td>
+        </tr>
+        <tr>
+            <td>{{ latest_sample.date }}</td>
+            <td>{{ latest_sample.time }}</td>
+            <td>{{ latest_sample.humidity }} %</td>
+            <td>{{ latest_sample.pressure }} hPA</td>
+            <td>{{ latest_sample.temperature }} °C</td>
+        </tr>
+    </table>
+{% endblock %}
+
 {% block content %}
 
 {% if user.is_authenticated %}
 
-    <div class="offset-2 col-8 bg-primary fg-primary">
-        <h2>Dates</h2>
+<div class="last-sample fg-primary row">
 
-        {% for date in dates %}
-            <a href="media/{{ date.0 }}">{{ date.1 }}</a>
-        {% endfor %}
+    <div class="col-2 bg-primary fg-primary text-start">
+        <h3>Dates</h3>
+        <hr />
+        <div class="list-group list-group-flush">
+            {% for date in dates %}
+                <a class="list-group-item date-link" href="{% url 'date' date=date %}">{{ date }}</a>
+            {% endfor %}
+        </div>
     </div>
 
+    <div class="col-10">
+        <h3>
+            {% block page_title %}
+                History
+            {% endblock %}
+        </h3>
+        <hr />
+        
+        {% block page_content %}
+            <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+
+                <div class="row mt-5 frontpage-data">
+                    <div class="offset-1 col-5">
+                        <table class="text-start">
+                            <h4>Last measurement</h4>
+                            <tr>
+                                <td>Date:</td>
+                                <td>{{ latest_sample.date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Time:</td>
+                                <td>{{ latest_sample.time }}</td>
+                            </tr>
+                            <tr>
+                                <td>Humidity:</td>
+                                <td>{{ latest_sample.humidity }} %</td>
+                            </tr>
+                            <tr>
+                                <td>Pressure:</td>
+                                <td>{{ latest_sample.pressure }} hPA</td>
+                            </tr>
+                            <tr>
+                                <td>Temperature:</td>
+                                <td>{{ latest_sample.temperature }} °C</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-5">
+                        <h4>Last 24 hours</h4>
+                        <table class="text-start">
+                            <tr>
+                                <td>Max:</td>
+                                <td>{{ max_temp }}</td>
+                            </tr>
+                            <tr>
+                                <td>Min:</td>
+                                <td>{{ min_temp }}</td>
+                            </tr>
+                            <tr>
+                                <td>Avg:</td>
+                                <td>{{ avg_temp }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <canvas id="sample-canvas" class="w-100 mt-5">
+
+                </canvas>
+
+            </div>
+        {% endblock %}
+    </div>
+
+    
+</div>
+
+{% else %}
+
+<div class="text-center mt-5 pt-5 fg-primary">
+    <h2>This is a cool website.</h2>
+    <svg id="sunglasses" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-sunglasses" viewBox="0 0 16 16">
+        <path d="M4.968 9.75a.5.5 0 1 0-.866.5A4.498 4.498 0 0 0 8 12.5a4.5 4.5 0 0 0 3.898-2.25.5.5 0 1 0-.866-.5A3.498 3.498 0 0 1 8 11.5a3.498 3.498 0 0 1-3.032-1.75zM7 5.116V5a1 1 0 0 0-1-1H3.28a1 1 0 0 0-.97 1.243l.311 1.242A2 2 0 0 0 4.561 8H5a2 2 0 0 0 1.994-1.839A2.99 2.99 0 0 1 8 6c.393 0 .74.064 1.006.161A2 2 0 0 0 11 8h.438a2 2 0 0 0 1.94-1.515l.311-1.242A1 1 0 0 0 12.72 4H10a1 1 0 0 0-1 1v.116A4.22 4.22 0 0 0 8 5c-.35 0-.69.04-1 .116z"/>
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0z"/>
+    </svg>
+</div>
 
 {% endif %}
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        let temperatures = {{ temperatures|safe }};
+        let times = {{ times|safe }};
+
+        const data = {
+            labels: times,
+                datasets: [{
+                    label: 'Last 24 hours',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    fontColor: 'rgb(255, 255, 255)',
+                    data: temperatures,
+                }]
+        };
+
+        const config = {
+                type: 'line',
+                data,
+                options: {
+                    color: 'white',
+                }
+            };
+
+        Chart.defaults.color = 'rgba(255, 255, 255)';
+        Chart.defaults.font.size = 20;
+
+        var myChart = new Chart(
+            document.getElementById('sample-canvas'),
+            config
+        );
+
+
+    </script>
 {% endblock %}
