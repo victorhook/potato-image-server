@@ -1,0 +1,4 @@
+env/
+potato_image_server/potato_image_server/setttings.py
+*.pyc
+__pycache__/*
