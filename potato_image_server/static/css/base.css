@@ -1,6 +1,9 @@
-
-.content-wrapper {
+body {
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
 }
 
 .fg-primary {
@@ -23,6 +26,10 @@
     text-align: center;
 }
 
+.nav-link:hover {
+    color: rgb(143, 160, 216) !important;
+}
+
 .link {
     color: rgb(46, 46, 46);
     text-decoration: none;
@@ -37,4 +44,61 @@
 footer a,
 footer p {
     padding: 0 1em;
+}
+
+.content {
+    margin-top: 1em;
+}
+
+#sunglasses {
+    width: 64px;
+    height: 64px;
+}
+
+.last_sample_top {
+    padding: .5em 0 0 5em;
+}
+
+.list-group-item {
+    transition: 0.3s ease-in-out color, background-color;
+    text-decoration: none;
+    color: #e6eafb;
+}
+
+.date-link {
+    color: #e6eafb;
+    background-color: transparent;
+    border: none;
+}
+
+.date-link:hover {
+    background-color: #31445f;
+    color:rgb(230, 234, 251);
+}
+
+.time-link {
+    background-color: #31445f;
+}
+
+.time-link:hover {
+    background-color: #46576e;
+    color:rgb(230, 234, 251);
+}
+
+.nav-icon {
+    margin: 0 5em;
+    padding: 0 5em;
+}
+
+/* date */
+.datelist {
+    list-style: none;
+}
+
+.frontpage-data {
+    font-size: 1.3em;
+}
+
+td {
+    padding: .5em;
 }
